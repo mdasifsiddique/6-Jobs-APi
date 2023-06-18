@@ -29,7 +29,7 @@ const errorHandlerMiddleware = require('./middleware/error-handler');
 app.set('trust proxy' , 1);
 app.use(rateLimiter({
   windowMs : 15 * 60 *1000 , //15 minutes
-  max : 100 // limit earch iP to 100 request 
+  max : 100 // limit each iP to 100 request 
 }))
 app.use(express.json());
 // extra packages
@@ -38,6 +38,9 @@ app.use(cors());
 app.use(xss());
 
 // routes
+app.use("/",(req , resp)=>{
+  resp.send('<h1>Jobs API<h1>')
+})
 app.use("/api/v1/auth",authRouter);
 app.use("/api/v1/jobs", authMiddleWare , jobsRouter);
 
