@@ -7,6 +7,11 @@ const helmet = require('helmet');
 const cors = require('cors');
 const xss = require('xss-clean');
 
+///swagger
+const swaggerUI = require('swagger-ui-express');
+const YAML = require('yamljs');
+const swaggerDocument = YAML.load('./swagger.yaml');
+
 
 
 const express = require('express');
@@ -39,8 +44,9 @@ app.use(xss());
 
 // routes
 app.get("/",(req , resp)=>{
-  resp.send('<h1>Jobs API<h1>')
+  resp.send('<h1>Jobs API<h1><a href="/api-docs">Documentation</a>')
 })
+app.use('/api-docs' , swaggerUI.serve , swaggerUI.setup(swaggerDocument));
 app.use("/api/v1/auth",authRouter);
 app.use("/api/v1/jobs", authMiddleWare , jobsRouter);
 
